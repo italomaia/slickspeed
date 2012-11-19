@@ -20,7 +20,7 @@ frameworks = {}
 for section in config.sections():
     frameworks[section] = dict(config.items(section))
 
-app = Flask("slick")
+app = Flask(__name__)
 app.debug = True
 
 if not app.debug:
