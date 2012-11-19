@@ -7,6 +7,7 @@ Flask/python based version of the PHP project slickspeed.
 from flask import Flask
 from flask import request, render_template, send_file
 
+import os
 from ConfigParser import ConfigParser
 
 # load framework configurations
@@ -69,4 +70,6 @@ def test():
 
 
 if __name__ == "__main__":
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
     app.run()
