@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" media="screen"
+	href="{{ url_for('static', filename='style.css') }}" />
+
+<script type="text/javascript">
+	window.selectors = {{ selectors|safe }};
+</script>
+<script type="text/javascript" src="{{ url_for('static', filename='slickspeed.js') }}"></script>
+{% endblock head %}
+
+{% block body %}
+<div id="container">
+	<div id="controls">
+		<a class="stop" href="#">stop tests</a>
+		<a class="start" href="#">start tests</a>
+	</div>
+
+	{% include "header.html" %}
+
+	{% for framework in frameworks %}
+	<iframe name="{{ framework }}" src="{{ url_for('test', framework=framework) }}"></iframe>
+	{% endfor %}
+
+	<table>
+		<thead id="thead">
+			<tr>
+				<th class="selectors-title">selectors</th>
+				{% for framework in frameworks %}
+				<th>{{ framework }}</th>
+				{% endfor %}
+			</tr>
+		</thead>
+
+		<tbody id="tbody">
+			{% for selector in selectors %}
+			<tr>
+				<th class='selector'>{{ selector }}</th>
+				{% for framework in frameworks %}<td  class='empty'></td>{% endfor %}</tr>
+			{% endfor %}
+		</tbody>
+
+		<tfoot id="tfoot">
+			<tr>
+				<th class="score-title"><strong>final time (less is better)</strong></th>
+				{% for framework in frameworks %}
+				<td class='score'>0</td>
+				{% endfor %}
+			</tr>
+		</tfoot>
+	</table>
+
+	<h2>Legend</h2>
+
+	<table id="legend">
+
+		<tr>
+			<th>the faster</th>
+			<th>the slower</th>
+			<th>exception thrown or zero elements found</th>
+			<th>different returned elements</th>
+		</tr>
+
+		<tr>
+			<td class="good"></td>
+			<td class="bad"></td>
+			<td class="exception"></td>
+			<td class="mismatch"></td>
+		</tr>
+
+	</table>
+
+	{% include 'footer.html' %}
+
+</div><!-- end #container -->
+{% endblock body %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script type="text/javascript" src="{{ framework.url }}"></script>
+
+<script type="text/javascript">
+
+    var get_length = function(elements){
+        return (typeof elements.length == 'function') ? elements.length() : elements.length;
+    }
+
+    function test(selector){
+        try {
+            var start = new Date().getTime();
+            var i = 1;
+            var elements = {{ framework.function }}(selector);
+            i ++; {{ framework.function }}(selector);
+            i ++; {{ framework.function }}(selector);
+            i ++; {{ framework.function }}(selector);
+            i ++; {{ framework.function }}(selector);
+            i ++; {{ framework.function }}(selector);
+            var end = ((new Date().getTime() - start) / i);
+            return {'time': Math.round(end), 'found': get_length(elements)};
+        } catch(err){
+            if (elements == undefined) elements = {length: -1};
+            return ({'time': (new Date().getTime() - start) / i, 'found': get_length(elements), 'error': err});
+        }
+
+    };
+
+</script>
+{% endblock head %}
+
+{% block body %}
+{% include "template.txt" %}
+{% endblock %}
